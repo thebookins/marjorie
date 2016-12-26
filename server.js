@@ -12,6 +12,7 @@ const server = express()
   .listen(PORT, () => console.log(`Listening on ${ PORT }`));
 
 const io = socketIO(server);
+const cgm = require('./cgm')(io.of('/cgm'));
 
 io.on('connection', (socket) => {
   console.log('Client connected');
