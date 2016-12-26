@@ -22,7 +22,7 @@ module.exports = (t1d) => {
     },
 
     doStep: () => {
-      if (!(timestamp % 10)) { // every five minutes
+      if (!(timestamp % 300)) { // every five minutes
         eventEmitter.emit('reservoir', reservoirUnits);
       }
       timestamp++;
