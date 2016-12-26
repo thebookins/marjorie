@@ -1,29 +1,33 @@
-module.exports = (nsp) => {
+"use strict";
+
+var events = require('events');
+
+module.exports = (t1d) => {
+  var eventEmitter = new events.EventEmitter();
+
   // private data
   var reservoirUnits = 300;
-
-  setInterval(() => nsp.emit('reservoir', reservoirUnits), 1000);
-
-  // perhaps move this socket stuff into a comms module?
-  nsp.on('connection', (socket) => {
-    socket.on('bolus', (units) => {
-      units = units || 0;
-      reservoirUnits -= units;
-    });
-  });
+  var timestamp = 0;
 
   return {
-    // public getters
-    reservoirUnits,
-
     // API (public) functions
     bolus: (units) => {
       reservoirUnits -= units;
+      t1d.dose(units);
       return true;
     },
 
     prime: (reservoirUnits) => {
       reservoirUnits = reservoirUnits;
-    }
+    },
+
+    doStep: () => {
+      if (!(timestamp % 10)) { // every five minutes
+        eventEmitter.emit('reservoir', reservoirUnits);
+      }
+      timestamp++;
+    },
+
+    on: (message, callback) => eventEmitter.on(message, callback)
   };
 }

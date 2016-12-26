@@ -13,11 +13,36 @@ const server = express()
 
 const io = socketIO(server);
 
-const cgmNsp = io.of('/cgm');
-const cgm = require('./cgm')(cgmNsp);
+// t1d
+const t1d = require('./t1d')();
+// end t1d
 
+// cgm
+const cgm = require('./cgm')(t1d);
+const cgmNsp = io.of('/cgm');
+cgm.on('glucose', (value) => cgmNsp.emit('glucose', value));
+// end cmg
+
+// pump
+const pump = require('./pump')(t1d);
 const pumpNsp = io.of('/pump');
-const pump = require('./pump')(pumpNsp);
+pump.on('reservoir', (value) => pumpNsp.emit('reservoir', value));
+
+pumpNsp.on('connection', (socket) => {
+  socket.on('bolus', (units) => {
+    units = units || 0;
+    pump.bolus(units);
+  });
+});
+// end pump
+
+// global timer - replace with something more accurate
+// 1 Hz too fine???
+setInterval(() => {
+  cgm.doStep();
+  pump.doStep();
+  t1d.doStep();
+}, 1000);
 
 io.on('connection', (socket) => {
   console.log('Client connected');
