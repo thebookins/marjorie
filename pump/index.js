@@ -1,6 +1,6 @@
 "use strict";
 
-var events = require('events');
+const events = require('events');
 
 module.exports = (t1d) => {
   var eventEmitter = new events.EventEmitter();
@@ -8,6 +8,13 @@ module.exports = (t1d) => {
   // private data
   var reservoirUnits = 300;
   var timestamp = 0;
+
+  setInterval(() => {
+    if (!(timestamp % 300)) { // every five minutes
+      eventEmitter.emit('reservoir', reservoirUnits);
+    }
+    timestamp++;
+  }, 1000);
 
   return {
     // API (public) functions
@@ -19,13 +26,6 @@ module.exports = (t1d) => {
 
     prime: (reservoirUnits) => {
       reservoirUnits = reservoirUnits;
-    },
-
-    doStep: () => {
-      if (!(timestamp % 300)) { // every five minutes
-        eventEmitter.emit('reservoir', reservoirUnits);
-      }
-      timestamp++;
     },
 
     on: (message, callback) => eventEmitter.on(message, callback)

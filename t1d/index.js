@@ -4,6 +4,10 @@ module.exports = () => {
   var cob = 0;
   var iob = 0;
 
+  setInterval(() => {
+    // doStep
+  }, 1000);
+
   return {
     // API (public) functions
     eat: (g) => {
@@ -15,7 +19,5 @@ module.exports = () => {
     },
 
     sense: () => bloodGlucose,
-
-    doStep: () => {}
   };
 }
