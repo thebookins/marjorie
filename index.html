@@ -1,6 +1,7 @@
 <html>
   <body>
     <p id='server-time'></p>
+    <p id='sensor-time'></p>
     <p id='glucose'></p>
     <p id='reservoir'></p>
     <button id='button'>Bolus 1 U</button>
@@ -19,9 +20,13 @@
 
       // cgm
       var cgm = io('/cgm');
-      var glel = document.getElementById('glucose');
+      var gltimeel = document.getElementById('sensor-time');
+      cgm.on('time', function(value) {
+        gltimeel.innerHTML = 'sensor-time: ' + value;
+       });
+       var glel = document.getElementById('glucose');
       cgm.on('glucose', function(value) {
-         glel.innerHTML = 'glucose: ' + value;
+        glel.innerHTML = 'glucose: ' + value;
        });
 
        // pump
@@ -29,7 +34,8 @@
        var resEl = document.getElementById('reservoir');
        var button = document.getElementById('button');
        pump.on('reservoir', function(value) {
-          resEl.innerHTML = 'reservoir: ' + value;
+        resEl.innerHTML = 'reservoir: ' + value;
+
         });
 
         button.onclick = function() {
