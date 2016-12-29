@@ -14,7 +14,7 @@ module.exports = (t1d) => {
 
   setInterval(() => {
     timestamp++;
-    insulinDeficit += basal_rate_U_per_hour / 3600;
+    insulinDeficit_U += basal_rate_U_per_hour / 3600;
     if (insulinDeficit_U >= 0.05) {
       bolus(0.05);
       insulinDeficit_U -= 0.05;
