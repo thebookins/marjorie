@@ -13,28 +13,35 @@
         socket.emit('message', 'Hello server');
       });
 
-      var el = document.getElementById('server-time');
       socket.on('time', function(timeString) {
+        var el = document.getElementById('server-time');
         el.innerHTML = 'Server time: ' + timeString;
       });
 
       // cgm
       var cgm = io('/cgm');
-      var gltimeel = document.getElementById('sensor-time');
-      cgm.on('time', function(value) {
-        gltimeel.innerHTML = 'sensor-time: ' + toHexString(value);
-       });
-       var glel = document.getElementById('glucose');
-      cgm.on('glucose', function(value) {
-        glel.innerHTML = 'glucose: ' + value;
-       });
+      cgm.on('message', function(value) {
+        const view = new Uint8Array(value);
+        switch(view[0]) {
+          case 0x25:
+            var gltimeel = document.getElementById('sensor-time');
+            gltimeel.innerHTML = 'sensor-time: ' + toHexString(Array.from(view));
+            break;
+          case n:
+            var glel = document.getElementById('glucose');
+            glel.innerHTML = 'glucose: ' + toHexString(Array.from(view));
+            break;
+          default:
+            console.log('unknown opcode: ' + view[0])
+        }
+      });
 
        // pump
        var pump = io('/pump');
        var resEl = document.getElementById('reservoir');
        var button = document.getElementById('button');
        pump.on('reservoir', function(value) {
-        resEl.innerHTML = 'reservoir: ' + toHexString(value);
+        resEl.innerHTML = 'reservoir: ' + value;
 
         });
 
@@ -43,6 +50,7 @@
         };
 
         function toHexString(byteArray) {
+          console.log('byteArray: ' + byteArray[0]);
           return byteArray.map(function(byte) {
             return ('0' + (byte & 0xFF).toString(16)).slice(-2);
           }).join('')
