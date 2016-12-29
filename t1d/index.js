@@ -1,6 +1,6 @@
 module.exports = () => {
   // private data
-  var bloodGlucose = 120;
+  var bloodGlucose = 100;
   var cob = 0;
   var iob = 0;
 

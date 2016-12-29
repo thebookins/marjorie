@@ -16,10 +16,9 @@ module.exports = (io, cgm) => {
     // state
     dataView.setUint8(12, message.state, true /* littleEndian */);
     // trend
-    dataView.setUint8(12, message.trend, true /* littleEndian */);
+    dataView.setUint8(13, message.trend, true /* littleEndian */);
 
-//    nsp.emit('glucose', bufArr);
-    nsp.emit('glucose', buf2hex(bufArr)); // for testing
+    nsp.emit('message', bufArr); // for testing
   })
 
   nsp.on('connection', (socket) => {
@@ -35,10 +34,6 @@ module.exports = (io, cgm) => {
     // sessionStartTime
     dataView.setUint32(6, sensorTime.sessionTimestamp, true /* littleEndian */);
 
-    socket.emit('time', buf2hex(bufArr));
+    socket.emit('message', bufArr);
   })
-
-  function buf2hex(buffer) { // buffer is an ArrayBuffer
-    return Array.prototype.map.call(new Uint8Array(buffer), x => ('00' + x.toString(16)).slice(-2)).join('');
-  }
 }

@@ -12,16 +12,18 @@ module.exports = (t1d) => {
   var sequence = 0;
   var timestamp = 0;
   var sessionTimestamp = 0;
-  var state = 0;
+  var glucoseIsDisplayOnly = false;
+  var state = 6; // calibration OK
   var trend = 0;
 
   setInterval(() => {
-    if (!(timestamp % 10)) { // every five minutes
+    if (!(timestamp % 300)) { // every five minutes
       eventEmitter.emit('glucose', {
         status,
         sequence,
         timestamp,
         glucose: t1d.sense(),
+        glucoseIsDisplayOnly,
         state,
         trend
       });
