@@ -24,12 +24,12 @@
         const view = new Uint8Array(value);
         switch(view[0]) {
           case 0x25:
-            var gltimeel = document.getElementById('sensor-time');
-            gltimeel.innerHTML = 'sensor-time: ' + toHexString(Array.from(view));
+            const el = document.getElementById('sensor-time');
+            el.innerHTML = 'sensor-time: ' + toHexString(Array.from(view));
             break;
-          case n:
-            var glel = document.getElementById('glucose');
-            glel.innerHTML = 'glucose: ' + toHexString(Array.from(view));
+          case 0x31:
+            const el = document.getElementById('glucose');
+            el.innerHTML = 'glucose: ' + toHexString(Array.from(view));
             break;
           default:
             console.log('unknown opcode: ' + view[0])
@@ -38,13 +38,12 @@
 
        // pump
        var pump = io('/pump');
-       var resEl = document.getElementById('reservoir');
-       var button = document.getElementById('button');
        pump.on('reservoir', function(value) {
-        resEl.innerHTML = 'reservoir: ' + value;
+         var el = document.getElementById('reservoir');
+         el.innerHTML = 'reservoir: ' + value;
+       });
 
-        });
-
+       var button = document.getElementById('button');
         button.onclick = function() {
           pump.emit('bolus', 1);
         };

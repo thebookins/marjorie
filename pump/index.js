@@ -24,13 +24,15 @@ module.exports = (t1d) => {
     }
   }, 1000);
 
+  var bolus = function (units) {
+    reservoirUnits -= units;
+    t1d.dose(units);
+    return true;
+  }
+
   return {
     // API (public) functions
-    bolus: (units) => {
-      reservoirUnits -= units;
-      t1d.dose(units);
-      return true;
-    },
+    bolus,
 
     prime: (reservoirUnits) => {
       reservoirUnits = reservoirUnits;
