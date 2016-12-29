@@ -32,7 +32,7 @@ module.exports = (t1d) => {
       eventEmitter.emit('reservoir', reservoirUnits);
     }
     mc.set('reservoir', reservoirUnits, function(err, val) {
-      console.log("set reservoir to " + val)
+      console.log("set reservoir to " + reservoirUnits)
     }, 600);
   }, 1000);
 
