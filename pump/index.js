@@ -2,11 +2,19 @@
 
 const events = require('events');
 
+const memjs = require('memjs');
+const mc = memjs.Client.create()
+
 module.exports = (t1d) => {
   var eventEmitter = new events.EventEmitter();
 
+  var reservoirUnits;
+  mc.get('reservoir', function(val) {
+      reservoirUnits = val || 300;
+      console.log("reservoirUnits = ", reservoirUnits);
+  })
+
   // private data
-  var reservoirUnits = 300;
   var timestamp = 0;
   var insulinDeficit_U = 0;
 
@@ -22,9 +30,11 @@ module.exports = (t1d) => {
     if (!(timestamp % 300)) { // every five minutes
       eventEmitter.emit('reservoir', reservoirUnits);
     }
+    mc.set('reservoir', reservoirUnits, function(err, val) {
+    }, 600);
   }, 1000);
 
-  var bolus = function (units) {
+  var bolus = (units) => {
     reservoirUnits -= units;
     t1d.dose(units);
     return true;
