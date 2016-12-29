@@ -31,7 +31,7 @@ module.exports = (t1d) => {
     if (!(timestamp % 300)) { // every five minutes
       eventEmitter.emit('reservoir', reservoirUnits);
     }
-    mc.set('reservoir', reservoirUnits, function(err, val) {
+    mc.set('reservoir', 'test', function(err, val) {
       console.log("set reservoir to " + reservoirUnits + ", with error " + err)
       mc.get('reservoir', function(val) {
         console.log("reservoirUnits = " + val);
