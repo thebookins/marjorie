@@ -33,6 +33,9 @@ module.exports = (t1d) => {
     }
     mc.set('reservoir', reservoirUnits, function(err, val) {
       console.log("set reservoir to " + reservoirUnits)
+      mc.get('reservoir', function(val) {
+        console.log("reservoirUnits = " + val);
+      })
     }, 600);
   }, 1000);
 
