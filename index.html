@@ -22,7 +22,7 @@
       var cgm = io('/cgm');
       var gltimeel = document.getElementById('sensor-time');
       cgm.on('time', function(value) {
-        gltimeel.innerHTML = 'sensor-time: ' + value;
+        gltimeel.innerHTML = 'sensor-time: ' + toHexString(value);
        });
        var glel = document.getElementById('glucose');
       cgm.on('glucose', function(value) {
@@ -34,13 +34,20 @@
        var resEl = document.getElementById('reservoir');
        var button = document.getElementById('button');
        pump.on('reservoir', function(value) {
-        resEl.innerHTML = 'reservoir: ' + value;
+        resEl.innerHTML = 'reservoir: ' + toHexString(value);
 
         });
 
         button.onclick = function() {
           pump.emit('bolus', 1);
         };
+
+        function toHexString(byteArray) {
+          return byteArray.map(function(byte) {
+            return ('0' + (byte & 0xFF).toString(16)).slice(-2);
+          }).join('')
+        }
+}
     </script>
   </body>
 </html>
