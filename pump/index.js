@@ -8,6 +8,7 @@ const mc = memjs.Client.create()
 module.exports = (t1d) => {
   var eventEmitter = new events.EventEmitter();
 
+  // to do - should make reservoirUnits an int to save on memory
   var reservoirUnits;
   mc.get('reservoir', function(val) {
       reservoirUnits = val || 300;
@@ -31,6 +32,7 @@ module.exports = (t1d) => {
       eventEmitter.emit('reservoir', reservoirUnits);
     }
     mc.set('reservoir', reservoirUnits, function(err, val) {
+      console.log("set reservoir to " + val)
     }, 600);
   }, 1000);
 
