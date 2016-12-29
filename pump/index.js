@@ -13,7 +13,6 @@ module.exports = (t1d) => {
   var basal_rate_U_per_hour = 10;
 
   setInterval(() => {
-    timestamp++;
     insulinDeficit_U += basal_rate_U_per_hour / 3600;
     if (insulinDeficit_U >= 0.05) {
       bolus(0.05);
@@ -22,6 +21,7 @@ module.exports = (t1d) => {
     if (!(timestamp % 300)) { // every five minutes
       eventEmitter.emit('reservoir', reservoirUnits);
     }
+    timestamp++;
   }, 1000);
 
   var bolus = function (units) {
