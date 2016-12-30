@@ -35,7 +35,7 @@ module.exports = (t1d) => {
       console.log("set reservoir to " + reservoirUnits)
     }, 600); // might be an idea to get rid of this expire
     mc.get('reservoir', function(err, val) {
-      console.log("reservoirUnits = " + val " saved to memory");
+      console.log("reservoirUnits = " + val + " saved to memory");
     })
   }, 1000);
 
