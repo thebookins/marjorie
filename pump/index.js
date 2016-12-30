@@ -37,7 +37,7 @@ module.exports = (t1d) => {
     }
 //    mc.set('reservoir', reservoirUnits.toString(2), function(err, val) {
     const buffer = Buffer.alloc(4); // this doesn't need to be alloced each time
-    buffer.writeUint32LE(reservoirUnits, 0);
+    buffer.writeUInt32LE(reservoirUnits, 0);
     mc.set('reservoir', buffer, function(err, val) {
 //      console.log("set reservoir to " + reservoirUnits)
     });
