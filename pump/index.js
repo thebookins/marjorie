@@ -10,9 +10,9 @@ module.exports = (t1d) => {
 
   // to do - should make reservoirUnits an int to save on memory
   var reservoirUnits;
-  mc.get('reservoir', function(val) {
-      reservoirUnits = val || 300;
-//      console.log("reservoirUnits = ", reservoirUnits);
+  mc.get('reservoir', function(err, val) {
+    reservoirUnits = val || 300;
+    console.log("reservoirUnits = ", reservoirUnits);
   })
 
   // private data
@@ -31,12 +31,12 @@ module.exports = (t1d) => {
     if (!(timestamp % 300)) { // every five minutes
       eventEmitter.emit('reservoir', reservoirUnits);
     }
-    // mc.add('reservoir', 'test', function(err, val) {
-    //   console.log("set reservoir to " + reservoirUnits + ", with error " + err)
-    // }, 600);
-    // mc.get('reservoir', function(val) {
-    //   console.log("reservoirUnits = " + val);
-    // })
+    mc.set('reservoir', reservoirUnits, function(err, val) {
+      console.log("set reservoir to " + reservoirUnits)
+    }, 600); // might be an idea to get rid of this expire
+    mc.get('reservoir', function(err, val) {
+      console.log("reservoirUnits = " + val " saved to memory");
+    })
   }, 1000);
 
   var bolus = (units) => {
