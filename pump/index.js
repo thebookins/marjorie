@@ -32,7 +32,7 @@ module.exports = (t1d) => {
       eventEmitter.emit('reservoir', reservoirUnits/100);
     }
     mc.set('reservoir', reservoirUnits.toString(2), function(err, val) {
-      console.log("set reservoir to " + reservoirUnits)
+//      console.log("set reservoir to " + reservoirUnits)
     }, 600); // might be an idea to get rid of this expire
     // mc.get('reservoir', function(err, val) {
     //   console.log("reservoirUnits = " + parseInt(val,2) + " saved to memory");
