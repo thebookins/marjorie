@@ -28,7 +28,7 @@ module.exports = (t1d) => {
       bolus(0.05);
       insulinDeficit_U -= 0.05;
     }
-    if (!(timestamp % 300)) { // every five minutes
+    if (!(timestamp % 10)) { // every five minutes
       eventEmitter.emit('reservoir', reservoirUnits/100);
     }
     mc.set('reservoir', reservoirUnits.toString(2), function(err, val) {
