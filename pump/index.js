@@ -33,7 +33,7 @@ module.exports = (t1d) => {
     }
     mc.set('reservoir', reservoirUnits.toString(2), function(err, val) {
 //      console.log("set reservoir to " + reservoirUnits)
-    }, 600); // might be an idea to get rid of this expire
+    });
     // mc.get('reservoir', function(err, val) {
     //   console.log("reservoirUnits = " + parseInt(val,2) + " saved to memory");
     // })
