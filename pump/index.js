@@ -31,7 +31,7 @@ module.exports = (t1d) => {
     if (!(timestamp % 300)) { // every five minutes
       eventEmitter.emit('reservoir', reservoirUnits);
     }
-    testNumber = 97;
+    const testNumber = 97;
     mc.set('reservoir', testNumber.toString(2), function(err, val) {
       console.log("set reservoir to " + reservoirUnits)
     }, 600); // might be an idea to get rid of this expire
