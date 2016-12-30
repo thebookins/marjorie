@@ -15,8 +15,7 @@ module.exports = (t1d) => {
   //   console.log("reservoirUnits = ", reservoirUnits);
   // })
   mc.get('reservoir', function(err, val) {
-    data = new DataView(val);
-    reservoirUnits = data.getUint32(0) || 30000;
+    reservoirUnits = val.readUInt32LE(0) || 30000;
     console.log("reservoirUnits = ", reservoirUnits);
   })
 
@@ -37,9 +36,8 @@ module.exports = (t1d) => {
       eventEmitter.emit('reservoir', reservoirUnits/100);
     }
 //    mc.set('reservoir', reservoirUnits.toString(2), function(err, val) {
-    var buffer = new ArrayBuffer(4);
-    var view = new DataView(buffer);
-    view.setUint32(0, reservoirUnits);
+    const buffer = Buffer.alloc(4); // this doesn't need to be alloced each time
+    buffer.writeUint32LE(reservoirUnits, 0);
     mc.set('reservoir', buffer, function(err, val) {
 //      console.log("set reservoir to " + reservoirUnits)
     });
