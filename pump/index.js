@@ -31,11 +31,11 @@ module.exports = (t1d) => {
     if (!(timestamp % 300)) { // every five minutes
       eventEmitter.emit('reservoir', reservoirUnits);
     }
-    mc.set('reservoir', reservoirUnits, function(err, val) {
+    mc.set('reservoir', 97, function(err, val) {
       console.log("set reservoir to " + reservoirUnits)
     }, 600); // might be an idea to get rid of this expire
     mc.get('reservoir', function(err, val) {
-      console.log("reservoirUnits = " + val + " saved to memory");
+      console.log("reservoirUnits = " + parseInt(val,2) + " saved to memory");
     })
   }, 1000);
 
