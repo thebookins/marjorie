@@ -33,10 +33,10 @@ module.exports = (t1d) => {
     }
     mc.set('reservoir', 'test', function(err, val) {
       console.log("set reservoir to " + reservoirUnits + ", with error " + err)
-      mc.get('reservoir', function(val) {
-        console.log("reservoirUnits = " + val);
-      })
     }, 600);
+    mc.get('reservoir', function(val) {
+      console.log("reservoirUnits = " + val);
+    })
   }, 1000);
 
   var bolus = (units) => {
