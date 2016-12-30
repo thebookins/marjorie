@@ -15,7 +15,7 @@ module.exports = (t1d) => {
   //   console.log("reservoirUnits = ", reservoirUnits);
   // })
   mc.get('reservoir', function(err, val) {
-    reservoirUnits = val.readUInt32LE(0) || 30000;
+    reservoirUnits = (val)? val.readUInt32LE(0) : 30000;
     console.log("reservoirUnits = ", reservoirUnits);
   })
 
