@@ -10,8 +10,13 @@ module.exports = (t1d) => {
 
   // to do - should make reservoirUnits an int to save on memory
   var reservoirUnits;
+  // mc.get('reservoir', function(err, val) {
+  //   reservoirUnits = parseInt(val, 2) || 30000;
+  //   console.log("reservoirUnits = ", reservoirUnits);
+  // })
   mc.get('reservoir', function(err, val) {
-    reservoirUnits = parseInt(val, 2) || 30000;
+    data = new DataView(val);
+    reservoirUnits = data.getUint32(0) || 30000;
     console.log("reservoirUnits = ", reservoirUnits);
   })
 
@@ -31,7 +36,11 @@ module.exports = (t1d) => {
     if (!(timestamp % 10)) { // every five minutes
       eventEmitter.emit('reservoir', reservoirUnits/100);
     }
-    mc.set('reservoir', reservoirUnits.toString(2), function(err, val) {
+//    mc.set('reservoir', reservoirUnits.toString(2), function(err, val) {
+    var buffer = new ArrayBuffer(4);
+    var view = new DataView(buffer);
+    view.setUint32(0, reservoirUnits);
+    mc.set('reservoir', buffer, function(err, val) {
 //      console.log("set reservoir to " + reservoirUnits)
     });
     // mc.get('reservoir', function(err, val) {
