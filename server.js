@@ -35,7 +35,7 @@ const memjs = require('memjs');
 const mc = memjs.Client.create()
 
 mc.set('reservoir', 'test', function(err, val) {
-}, 600);
+};
 mc.get('reservoir', function(val) {
   console.log("reservoirUnits = " + val);
 })

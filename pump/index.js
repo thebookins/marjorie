@@ -12,7 +12,7 @@ module.exports = (t1d) => {
   var reservoirUnits;
   mc.get('reservoir', function(val) {
       reservoirUnits = val || 300;
-      console.log("reservoirUnits = ", reservoirUnits);
+//      console.log("reservoirUnits = ", reservoirUnits);
   })
 
   // private data
