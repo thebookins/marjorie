@@ -30,12 +30,3 @@ io.on('connection', (socket) => {
 });
 
 setInterval(() => io.emit('time', new Date().toTimeString()), 1000);
-
-const memjs = require('memjs');
-const mc = memjs.Client.create()
-
-mc.set('reservoir', 'test', function(err, val) {
-});
-mc.get('reservoir', function(err, val) {
-  console.log("reservoirUnits = " + val);
-})
