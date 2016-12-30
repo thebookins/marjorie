@@ -11,7 +11,7 @@ module.exports = (t1d) => {
   // to do - should make reservoirUnits an int to save on memory
   var reservoirUnits;
   mc.get('reservoir', function(err, val) {
-    reservoirUnits = val || 300;
+    reservoirUnits = parseInt(val, 2) || 30000;
     console.log("reservoirUnits = ", reservoirUnits);
   })
 
@@ -29,19 +29,18 @@ module.exports = (t1d) => {
       insulinDeficit_U -= 0.05;
     }
     if (!(timestamp % 300)) { // every five minutes
-      eventEmitter.emit('reservoir', reservoirUnits);
+      eventEmitter.emit('reservoir', reservoirUnits/100);
     }
-    const testNumber = 97;
-    mc.set('reservoir', testNumber.toString(2), function(err, val) {
+    mc.set('reservoir', reservoirUnits.toString(2), function(err, val) {
       console.log("set reservoir to " + reservoirUnits)
     }, 600); // might be an idea to get rid of this expire
-    mc.get('reservoir', function(err, val) {
-      console.log("reservoirUnits = " + parseInt(val,2) + " saved to memory");
-    })
+    // mc.get('reservoir', function(err, val) {
+    //   console.log("reservoirUnits = " + parseInt(val,2) + " saved to memory");
+    // })
   }, 1000);
 
   var bolus = (units) => {
-    reservoirUnits -= units;
+    reservoirUnits -= units*100;
     t1d.dose(units);
     return true;
   }
