@@ -3,21 +3,22 @@
 const events = require('events');
 
 const memjs = require('memjs');
-const mc = memjs.Client.create()
+const mc = memjs.Client.create();
+const state = require('./state');
 
 module.exports = (t1d) => {
   var eventEmitter = new events.EventEmitter();
 
-  // to do - should make reservoirUnits an int to save on memory
-  var reservoirUnits;
+//  var reservoirUnits;
   // mc.get('reservoir', function(err, val) {
   //   reservoirUnits = parseInt(val, 2) || 30000;
   //   console.log("reservoirUnits = ", reservoirUnits);
   // })
-  mc.get('reservoir', function(err, val) {
-    reservoirUnits = (val)? val.readUInt32LE(0) : 30000;
-    console.log("reservoirUnits = ", reservoirUnits);
-  })
+  // TODO: put this stuff in a PersistentData class
+  // mc.get('reservoir', function(err, val) {
+  //   reservoirUnits = (val)? val.readUInt32LE(0) : 30000;
+  //   console.log("reservoirUnits = ", reservoirUnits);
+  // })
 
   // private data
   var timestamp = 0;
@@ -33,14 +34,14 @@ module.exports = (t1d) => {
       insulinDeficit_U -= 0.05;
     }
     if (!(timestamp % 10)) { // every five minutes
-      eventEmitter.emit('reservoir', reservoirUnits/100);
+      eventEmitter.emit('reservoir', state.reservoirUnits/100);
     }
 //    mc.set('reservoir', reservoirUnits.toString(2), function(err, val) {
-    const buffer = Buffer.alloc(4); // this doesn't need to be alloced each time
-    buffer.writeUInt32LE(reservoirUnits, 0);
-    mc.set('reservoir', buffer, function(err, val) {
+    // const buffer = Buffer.alloc(4); // this doesn't need to be alloced each time
+    // buffer.writeUInt32LE(reservoirUnits, 0);
+    // mc.set('reservoir', buffer, function(err, val) {
 //      console.log("set reservoir to " + reservoirUnits)
-    });
+    // });
     // mc.get('reservoir', function(err, val) {
     //   console.log("reservoirUnits = " + parseInt(val,2) + " saved to memory");
     // })
@@ -57,7 +58,7 @@ module.exports = (t1d) => {
     bolus,
 
     prime: (reservoirUnits) => {
-      reservoirUnits = reservoirUnits;
+      state.reservoirUnits = reservoirUnits;
     },
 
     on: (message, callback) => eventEmitter.on(message, callback)
