@@ -23,7 +23,7 @@ module.exports = () => {
     get reservoirUnits() {
       console.log('in getter');
       return reservoirUnits;
-    }
+    },
     set reservoirUnits(x) {
       console.log('in setter');
       if((x) && (x !== reservoirUnits)) {
