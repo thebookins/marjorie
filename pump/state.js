@@ -2,6 +2,7 @@ const memjs = require('memjs');
 const mc = memjs.Client.create()
 
 module.exports = () => {
+  console.log("in state.js")
   const buffer = Buffer.alloc(4);
 
   var reservoirUnits;
