@@ -4,7 +4,7 @@ const events = require('events');
 
 const memjs = require('memjs');
 const mc = memjs.Client.create();
-const state = require('./state');
+const state = require('./state')();
 
 module.exports = (t1d) => {
   var eventEmitter = new events.EventEmitter();
