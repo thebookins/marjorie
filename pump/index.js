@@ -48,7 +48,7 @@ module.exports = (t1d) => {
   }, 1000);
 
   var bolus = (units) => {
-    reservoirUnits -= units*100;
+    state.reservoirUnits -= units*100;
     t1d.dose(units);
     return true;
   }
