@@ -1,23 +1,16 @@
-module.exports = () => {
-  // private data
-  var bloodGlucose = 100;
-  var cob = 0;
-  var iob = 0;
+const Model = require('./hovorka');
 
-  setInterval(() => {
-    // doStep
-  }, 1000);
+module.exports = (dt) => {
+  const model = Model(dt);
 
-  return {
-    // API (public) functions
-    eat: (g) => {
-      COB += units;
+  const api = {
+    step: () => {
+      model.step();
     },
-
-    dose: (units) => {
-      iob += units;
-    },
-
-    sense: () => bloodGlucose,
+    eat: () => {},
+    dose: () => {},
+    sense: () => model.glucose,
   };
-}
+
+  return api;
+};
