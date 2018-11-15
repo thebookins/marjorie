@@ -10,6 +10,9 @@ module.exports = (dt) => {
       glucose.step(insulin.x);
       insulin.step();
     },
+    get glucose() {
+      return glucose.glucose;
+    },
   };
 
   return api;
