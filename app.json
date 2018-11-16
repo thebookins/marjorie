@@ -1,6 +1,0 @@
-{
-  "name": "VirtualOli",
-  "description": "T1D simulator",
-  "repository": "https://github.com/thebookins/VirtualOli",
-  "keywords": ["node", "websocket", "socket.io"]
-}
