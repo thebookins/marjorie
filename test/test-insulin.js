@@ -12,19 +12,20 @@ describe('Insulin', function() {
       }
     });
 
+    // NOTE: not sure about this test
     it('should peak around 55 min after a bolus', function() {
       const insulin = Insulin(1);
 
       let peakTime = 0;
       let peakInsulin = insulin.insulin;
-      for (let t = 0; t < 60; t += 1) {
+      for (let t = 0; t < 10 * 60; t += 1) {
         insulin.step(t === 0 ? 1000 : 0);
         if (insulin.insulin > peakInsulin) {
           peakInsulin = insulin.insulin;
           peakTime = t;
         }
       }
-      peakTime.should.be.within(50, 60);
+      peakTime.should.be.within(45, 65);
     })
   })
 });
