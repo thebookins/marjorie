@@ -2,6 +2,29 @@ const should = require('chai').should();
 const Glucose = require('../lib/hovorka/glucose');
 
 describe('Glucose', function() {
+  it('should instantiate with default state', function () {
+    Glucose(1).should.not.throw;
+  });
+  it('should instantiate with custom state', function () {
+    const state = {
+      gut: {
+        meals: [
+          { g: 100, t: 30 },
+        ],
+      },
+      accessible: {
+        Q: 65,
+        q_out: 0.5,
+      },
+      nonAccessible: {
+        Q: 30,
+      },
+    };
+
+    const glucose = Glucose(1, state);
+
+    glucose.state.should.eql(state);
+  });
 //   describe('insulin', function() {
 //     it('should be zero with zero administration', function() {
 //       const insulin = Insulin(1);
