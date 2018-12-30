@@ -16,7 +16,26 @@ describe('Pump', function() {
       pump.step()
       pump.basal.currentRate.should.equal(1);
     });
-    it('should cancel temporary basal rates');
-    it('should notify on basal rate transitions');
+    it('should cancel temporary basal rates', function() {
+      const pump = Pump();
+      const reservoirStart = pump.reservoir;
+      pump.basal.setTemp(5.0, 30);
+      for (let n = 0; n < 15; n += 1) {
+        pump.step()
+        pump.basal.currentRate.should.equal(5);
+      }
+      pump.basal.cancelTemp();
+      pump.step()
+      pump.basal.currentRate.should.equal(1);
+    });
+    it('should notify on basal rate transitions', function(done) {
+      const pump = Pump();
+      pump.on('basal', rate => {
+        rate.should.equal(5);
+        done();
+      });
+     pump.basal.setTemp(5, 30);
+     pump.step();
+    });
   });
 });
