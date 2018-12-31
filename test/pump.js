@@ -1,10 +1,43 @@
 /* eslint prefer-arrow-callback: "off" */
 /* eslint func-names: "off" */
 
-// const should = require('chai').should();
+const should = require('chai').should();
 const Pump = require('../lib/pump');
 
 describe('Pump', function () {
+  it('should suspend and unsuspend', function () {
+    const pump = Pump();
+    pump.state.suspended.should.be.false;
+    pump.suspend();
+    pump.state.suspended.should.be.true;
+    pump.unsuspend();
+    pump.state.suspended.should.be.false;
+  });
+  it('should not deliver any insulin when suspended', function () {
+    const pump = Pump();
+    const reservoirStart = pump.reservoir;
+    pump.suspend();
+    for (let n = 0; n < 30; n += 1) {
+      pump.step();
+    }
+    pump.reservoir.should.be.closeTo(reservoirStart, 1e-3);
+  });
+  it('should notify on suspend', function (done) {
+    const pump = Pump();
+    // NOTE: if we suspend while suspended, what do we expect? no event?
+    pump.on('suspend', () => {
+      done();
+    });
+    pump.suspend();
+  });
+  it('should notify on unsuspend', function (done) {
+    const pump = Pump();
+    // NOTE: if we unsuspend while unsuspended, what do we expect? no event?
+    pump.on('unsuspend', () => {
+      done();
+    });
+    pump.unsuspend();
+  });
   describe('basal', function () {
     it('should set temporary basal rates', function () {
       const pump = Pump();
