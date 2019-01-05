@@ -23,7 +23,7 @@ describe('Pump', function () {
     pump.reservoir.should.be.closeTo(reservoirStart, 1e-3);
   });
   it('should notify on suspend', function (done) {
-    const pump = Pump();
+    const pump = Pump({ suspended: false });
     // NOTE: if we suspend while suspended, what do we expect? no event?
     pump.on('suspend', () => {
       done();
@@ -31,7 +31,7 @@ describe('Pump', function () {
     pump.suspend();
   });
   it('should notify on unsuspend', function (done) {
-    const pump = Pump();
+    const pump = Pump({ suspended: true });
     // NOTE: if we unsuspend while unsuspended, what do we expect? no event?
     pump.on('unsuspend', () => {
       done();
