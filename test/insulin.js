@@ -1,5 +1,5 @@
 const should = require('chai').should();
-const Insulin = require('../lib/hovorka/insulin');
+const Insulin = require('../lib/pwd/hovorka/insulin');
 
 describe('Insulin', function() {
   describe('insulin', function() {

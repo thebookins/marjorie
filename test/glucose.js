@@ -1,5 +1,5 @@
 const should = require('chai').should();
-const Glucose = require('../lib/hovorka/glucose');
+const Glucose = require('../lib/pwd/hovorka/glucose');
 
 describe('Glucose', function() {
   it('should instantiate with default state', function () {
