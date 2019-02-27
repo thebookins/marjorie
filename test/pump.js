@@ -38,6 +38,11 @@ describe('Pump', function () {
     });
     pump.unsuspend();
   });
+  it('should reset reservoir', function () {
+    const pump = Pump({ reservoir: 50 });
+    pump.reset();
+    pump.reservoir.should.equal(300);
+  });
   describe('basal', function () {
     it('should set temporary basal rates', function () {
       const pump = Pump();
