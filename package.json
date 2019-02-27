@@ -1,6 +1,6 @@
 {
   "name": "marjorie",
-  "version": "0.1.4",
+  "version": "0.1.6",
   "description": "glucose-insulin system models",
   "main": "index.js",
   "engines": {
