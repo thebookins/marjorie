@@ -7,11 +7,6 @@ describe('Glucose', function() {
   });
   it('should instantiate with custom state', function () {
     const state = {
-      gut: {
-        meals: [
-          { g: 100, t: 30 },
-        ],
-      },
       accessible: {
         Q: 65,
         q_out: 0.5,
